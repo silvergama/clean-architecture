@@ -10,7 +10,10 @@ upgrade:
 clean:
 	rm -rf vendor/
 
-install:
+install-tools:
+	cat tools/tools.go | grep "_" | awk -F '"' '{print $$2}' | xargs -L1 go get -u
+
+install: install-tools
 	go mod vendor && go mod tidy
 
 build/install:

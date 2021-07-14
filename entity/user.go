@@ -61,7 +61,7 @@ func (u *User) AddBook(id ID) error {
 	return nil
 }
 
-// Remove remove a book
+// RemoveBook remove a book
 func (u *User) RemoveBook(id ID) error {
 	for i, b := range u.Books {
 		if b == id {

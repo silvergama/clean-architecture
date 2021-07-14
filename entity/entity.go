@@ -1,3 +1,4 @@
+// Package entity layer from clean architecture
 package entity
 
 import "github.com/google/uuid"
