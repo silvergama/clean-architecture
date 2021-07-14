@@ -15,7 +15,7 @@ var ErrCannotBeDeleted = errors.New("Cannot be deleted")
 var ErrNotEnoughBooks = errors.New("Not enough books")
 
 // ErrBookAlreadyBorrowed book already borrowed
-var ErrBookAlreadyBorrowe = errors.New("Books already borrowed")
+var ErrBookAlreadyBorrowed = errors.New("Books already borrowed")
 
 // ErrBookNotBorrowed book not borrowed
 var ErrBookNotBorrowed = errors.New("Book not borrowed")

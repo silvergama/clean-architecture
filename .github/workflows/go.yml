@@ -1,25 +1,42 @@
-name: Go
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+name: Main Flow
+on: [push]
 jobs:
-
-  build:
-    runs-on: ubuntu-latest
+  tests:
+    name: "Tests"
+    runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.16
-
-    - name: Build
-      run: go build -v ./...
-
-    - name: Test
-      run: go test -v ./...
+      - uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "America/Recife"
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.16.4'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-tests-${{ hashFiles('**/go.sum') }}
+      - run: make install
+      - run: make test
+  lint:
+    name: "Lint"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.16.4'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-lint-${{ hashFiles('**/go.sum') }}
+      - run: make install
+      - run: make lint
