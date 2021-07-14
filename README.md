@@ -1,3 +1,5 @@
+[![Main Flow](https://github.com/silvergama/clean-architecture/actions/workflows/go.yml/badge.svg)](https://github.com/silvergama/clean-architecture/actions/workflows/go.yml)
+
 # Studying Clean Architecture with Golang
 
 The code is not the same, but it has the same characteristics.
