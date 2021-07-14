@@ -10,12 +10,17 @@ upgrade:
 clean:
 	rm -rf vendor/
 
-install:
+install-tools:
+	cat tools/tools.go | grep "_" | awk -F '"' '{print $$2}' | xargs -L1 go get -u
+
+install: install-tools
 	go mod vendor && go mod tidy
 
 build/install:
 	go install --ldflags='-w -s -extldflags "-static"' -v -a
 
 lint:
-	go list ./... | grep -v casio-api/docs/swagger | xargs -L1 staticcheck -f stylish -fail all -tests
+	go list ./... | xargs -L1 staticcheck -f stylish -fail all -tests
 
+test:
+	go test -v ./...
