@@ -11,6 +11,7 @@ import (
 type User struct {
 	ID        ID
 	Email     string
+	Password  string
 	Salt      string
 	Hash      string
 	FirstName string
@@ -25,6 +26,7 @@ func NewUser(email, pwd, firstName, lastName string) (*User, error) {
 	u := &User{
 		ID:        NewID(),
 		Email:     email,
+		Password:  pwd,
 		FirstName: firstName,
 		LastName:  lastName,
 		CreatedAt: time.Now(),
@@ -42,7 +44,7 @@ func NewUser(email, pwd, firstName, lastName string) (*User, error) {
 	}
 	u.Hash = hash
 
-	err = u.Validate(pwd)
+	err = u.Validate()
 	if err != nil {
 		return nil, ErrInvalidEntity
 	}
@@ -53,7 +55,7 @@ func NewUser(email, pwd, firstName, lastName string) (*User, error) {
 // AddBook add a book
 func (u *User) AddBook(id ID) error {
 	_, err := u.GetBook(id)
-	if err != nil {
+	if err == nil {
 		return ErrBookAlreadyBorrowed
 	}
 
@@ -84,9 +86,9 @@ func (u *User) GetBook(id ID) (ID, error) {
 	return id, ErrNotFound
 }
 
-// Validate validade data
-func (u *User) Validate(password string) error {
-	if u.Email == "" || u.FirstName == "" || u.LastName == "" || password == "" {
+// Validate validate data
+func (u *User) Validate() error {
+	if u.Email == "" || u.FirstName == "" || u.LastName == "" || u.Password == "" {
 		return ErrInvalidEntity
 	}
 
@@ -94,13 +96,11 @@ func (u *User) Validate(password string) error {
 }
 
 // ValidateHash validate user hash by password
-func (u *User) ValidateHash(pwd string) error {
-	hash, err := generateHash(pwd, u.Salt)
-	if err != nil {
-		return err
-	}
-
-	err = bcrypt.CompareHashAndPassword([]byte(u.Hash), []byte(hash))
+func (u *User) ValidateHash() error {
+	var pwdBytes = []byte(u.Password)
+	var saltBytes = []byte(u.Salt)
+	pwdBytes = append(pwdBytes, saltBytes...)
+	err := bcrypt.CompareHashAndPassword([]byte(u.Hash), pwdBytes)
 	if err != nil {
 		return err
 	}
