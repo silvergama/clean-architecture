@@ -1,5 +1,3 @@
-PROJECT=studying-clean-architecture-with-golang
-
 RELEASE_MESSAGE=$(shell git log `git describe --tags --abbrev=0`..master --oneline --no-decorate | awk '{printf "%s\\n", $$0}' | sed 's/"/\\"/g')
 
 upgrade-all: upgrade install
