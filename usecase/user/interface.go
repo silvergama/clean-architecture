@@ -1,4 +1,4 @@
-// Package user : usecase/use layer from cleam architecture
+// Package user : usecase/user layer from cleam architecture
 package user
 
 import "github.com/silvergama/clean-architecture/entity"
