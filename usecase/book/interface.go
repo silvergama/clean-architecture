@@ -1,3 +1,4 @@
+// Package book : usecase/book layer from cleam architecture
 package book
 
 import "github.com/silvergama/clean-architecture/entity"
@@ -5,7 +6,7 @@ import "github.com/silvergama/clean-architecture/entity"
 // Reader book interface
 type Reader interface {
 	Get(id entity.ID) (*entity.Book, error)
-	Search(query string) (*entity.Book, error)
+	Search(query string) ([]*entity.Book, error)
 	List() ([]*entity.Book, error)
 }
 
@@ -25,7 +26,7 @@ type Repository interface {
 // UseCase book interface
 type UseCase interface {
 	Get(id entity.ID) (*entity.Book, error)
-	Search(query string) (*entity.Book, error)
+	Search(query string) ([]*entity.Book, error)
 	List() ([]*entity.Book, error)
 	Create(b *entity.Book) (entity.ID, error)
 	Update(b *entity.Book) error
